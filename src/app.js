@@ -1,10 +1,13 @@
 const express = require('express');
 const paginate = require('express-paginate')
 const app = express();
+const cors = require('cors')
 
 //URL encode  - Para que nos pueda llegar la información desde el formulario al req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(cors());
 
 app.use(paginate.middleware(8,50))
 

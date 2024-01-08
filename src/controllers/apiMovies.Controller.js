@@ -4,8 +4,11 @@ const { getAllMovies, getMovieById, storeMovie, updateMovie, deleteMovie } = req
 
 module.exports = {
     index : async (req,res) => {
+
+        const {keyword} = req.query
+
         try {
-            const {count, movies} = await getAllMovies(req.query.limit,req.skip);
+            const {count, movies} = await getAllMovies(req.query.limit,req.skip, keyword);
             const pagesCount = Math.ceil(count / req.query.limit);
             const currentPage = req.query.page;
             const pages = paginate.getArrayPages(req)(pagesCount,pagesCount,currentPage)
@@ -67,7 +70,8 @@ module.exports = {
                 ok : true,
                 data : movie,
                 message : 'Película agregada con éxito',
-                url : `${req.protocol}://${req.get('host')}/api/v1/movies/${movie.id}`
+                url : `${req.protocol}://${req.get('host')}/api/v1/movies/${movie.id}`,
+                data : movie
             })
 
         } catch (error) {
